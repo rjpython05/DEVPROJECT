@@ -1,0 +1,59 @@
+# DevProject - Monday.com App Manifest
+# Sistema de Gestión de Proyectos de Desarrollo (PMBOK 7ma Edición)
+version: '1.0.0'
+
+app:
+  name: DevProject
+  description: >
+    Sistema integral para Unidades Ejecutoras de Proyectos (UEP) de desarrollo,
+    alineado al PMBOK® 7ma Edición del PMI. Gestión de Marco Lógico, POA,
+    Adquisiciones, Finanzas, Riesgos y Stakeholders con interconexión total.
+
+  features:
+    # ── Board Views ──
+    - type: AppFeatureBoardView
+      name: DevProject - Vista General
+      description: Vista 360° del proyecto con KPIs, semáforos y dominios PMI
+      build:
+        source: customUrl
+        suffix: "/"
+
+    - type: AppFeatureBoardView
+      name: DevProject - Schema Explorer
+      description: Explorador interactivo de la arquitectura de boards y columnas
+      build:
+        source: customUrl
+        suffix: "/#schema"
+
+    # ── Dashboard Widgets ──
+    - type: AppFeatureDashboardWidget
+      name: DevProject - Dashboard Ejecutivo
+      description: KPIs consolidados con semáforos, avance físico vs financiero
+      build:
+        source: customUrl
+        suffix: "/#dashboard"
+
+    - type: AppFeatureDashboardWidget
+      name: DevProject - Mapa de Arquitectura
+      description: Visualización de la arquitectura de 3 niveles y conexiones cross-board
+      build:
+        source: customUrl
+        suffix: "/#architecture"
+
+    # ── Integration Recipes ──
+    - type: AppFeatureIntegration
+      name: DevProject - Automatizaciones Cross-Board
+      description: >
+        17 automatizaciones que interconectan Pipeline, Marco Lógico, POA,
+        Adquisiciones, Contratos, Finanzas, Riesgos y Stakeholders.
+      build:
+        source: customUrl
+        suffix: "/api/monday"
+
+    # ── Workspace View ──
+    - type: AppFeatureWorkspaceView
+      name: DevProject - Provisioning
+      description: Provisiona un workspace completo con todos los boards y conexiones
+      build:
+        source: customUrl
+        suffix: "/#provisioning"

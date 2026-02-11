@@ -1,0 +1,17 @@
+export { pipelineBoard } from "./boards/pipeline.js";
+export { portfolioBoard } from "./boards/portfolio.js";
+export { panelGeneralBoard } from "./boards/panel-general.js";
+export { marcoLogicoBoard } from "./boards/marco-logico.js";
+export { poaBoard } from "./boards/poa.js";
+export { planAdquisicionesBoard } from "./boards/plan-adquisiciones.js";
+export { gestionFinancieraBoard } from "./boards/gestion-financiera.js";
+export { registroRiesgosBoard } from "./boards/registro-riesgos.js";
+export { stakeholdersBoard } from "./boards/stakeholders.js";
+export { componenteBoard } from "./boards/componente.js";
+export { contratosBoard } from "./boards/contratos.js";
+export { issuesCambiosBoard } from "./boards/issues-cambios.js";
+export { leccionesAprendidasBoard } from "./boards/lecciones-aprendidas.js";
+export { ALL_BOARDS } from "./all-boards.js";
+export { ALL_AUTOMATIONS } from "./automations.js";
+export { BOARD_CONNECTIONS } from "./connections.js";
+export { DEVPROJECT_TEMPLATE } from "./template.js";
