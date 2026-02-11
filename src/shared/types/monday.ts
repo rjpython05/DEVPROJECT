@@ -64,6 +64,8 @@ export interface AutomationDefinition {
     column?: string;
     value?: string;
     schedule?: string;
+    days?: number;
+    threshold?: number;
   };
   actions: {
     type: string;

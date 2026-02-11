@@ -1,40 +1,19 @@
-import type { BoardDefinition, ColumnDefinition, GroupDefinition } from "../../shared/types/monday.js";
+import { ApiClient } from "@mondaydotcomorg/api";
+import type { ColumnDefinition, GroupDefinition } from "../../shared/types/monday.js";
 
 /**
  * Monday.com GraphQL API service.
- * Handles all API communication with Monday.com.
+ * Uses the official @mondaydotcomorg/api client for all API communication.
  */
 export class MondayApiService {
-  private token: string;
-  private apiUrl = "https://api.monday.com/v2";
-  private apiVersion = "2025-07";
+  private client: ApiClient;
 
   constructor(token: string) {
-    this.token = token;
+    this.client = new ApiClient({ token, apiVersion: "2025-07" });
   }
 
   async query<T = unknown>(graphql: string, variables?: Record<string, unknown>): Promise<T> {
-    const response = await fetch(this.apiUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: this.token,
-        "API-Version": this.apiVersion,
-      },
-      body: JSON.stringify({ query: graphql, variables }),
-    });
-
-    if (!response.ok) {
-      throw new Error(`Monday API error: ${response.status} ${response.statusText}`);
-    }
-
-    const result = await response.json() as { data?: T; errors?: Array<{ message: string }> };
-
-    if (result.errors?.length) {
-      throw new Error(`Monday GraphQL error: ${result.errors.map((e) => e.message).join(", ")}`);
-    }
-
-    return result.data as T;
+    return await this.client.request<T>(graphql, variables);
   }
 
   // ── Workspace ──

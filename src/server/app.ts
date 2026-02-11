@@ -4,12 +4,15 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
+import { Logger } from "@mondaycom/apps-sdk";
 
 import provisioningRoutes from "./routes/provisioning.js";
 import mondayRoutes from "./routes/monday.js";
 import oauthRoutes from "./routes/oauth.js";
 
 dotenv.config();
+
+const logger = new Logger("devproject-server");
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -45,9 +48,9 @@ if (process.env.NODE_ENV === "production") {
 }
 
 app.listen(PORT, () => {
-  console.log(`[DevProject] Server running on port ${PORT}`);
-  console.log(`[DevProject] Health check: http://localhost:${PORT}/api/health`);
-  console.log(`[DevProject] Schema API: http://localhost:${PORT}/api/provision/schema`);
+  logger.info(`Server running on port ${PORT}`);
+  logger.info(`Health check: http://localhost:${PORT}/api/health`);
+  logger.info(`Schema API: http://localhost:${PORT}/api/provision/schema`);
 });
 
 export default app;

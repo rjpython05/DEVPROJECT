@@ -1,5 +1,8 @@
 import type { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import { Logger } from "@mondaycom/apps-sdk";
+
+const logger = new Logger("devproject-auth");
 
 export interface MondaySession {
   accountId: string;
@@ -37,8 +40,10 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction):
   try {
     const decoded = jwt.verify(token, signingSecret) as MondaySession;
     req.session = decoded;
+    logger.info(`Auth OK: userId=${decoded.userId} accountId=${decoded.accountId}`);
     next();
   } catch {
+    logger.warn("Auth failed: invalid or expired token");
     res.status(401).json({ error: "Invalid or expired token" });
   }
 }

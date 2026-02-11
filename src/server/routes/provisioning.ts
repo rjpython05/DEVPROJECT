@@ -46,33 +46,34 @@ router.post("/", async (req, res) => {
  * GET /api/provision/schema
  * Returns the full board schema definitions for reference.
  */
-router.get("/schema", (_req, res) => {
-  // Dynamic import to avoid circular deps
-  import("../../shared/schemas/all-boards.js").then(({ ALL_BOARDS, BOARDS_BY_LEVEL }) => {
-    import("../../shared/schemas/automations.js").then(({ ALL_AUTOMATIONS }) => {
-      import("../../shared/schemas/connections.js").then(({ BOARD_CONNECTIONS }) => {
-        res.json({
-          boards: {
-            total: ALL_BOARDS.length,
-            byLevel: {
-              estrategico: BOARDS_BY_LEVEL.estrategico.map((b) => ({ key: b.key, name: b.name })),
-              tactico: BOARDS_BY_LEVEL.tactico.map((b) => ({ key: b.key, name: b.name })),
-              operativo: BOARDS_BY_LEVEL.operativo.map((b) => ({ key: b.key, name: b.name })),
-            },
-            definitions: ALL_BOARDS,
-          },
-          automations: {
-            total: ALL_AUTOMATIONS.length,
-            definitions: ALL_AUTOMATIONS,
-          },
-          connections: {
-            total: BOARD_CONNECTIONS.length,
-            definitions: BOARD_CONNECTIONS,
-          },
-        });
-      });
+router.get("/schema", async (_req, res) => {
+  try {
+    const { ALL_BOARDS, BOARDS_BY_LEVEL } = await import("../../shared/schemas/all-boards.js");
+    const { ALL_AUTOMATIONS } = await import("../../shared/schemas/automations.js");
+    const { BOARD_CONNECTIONS } = await import("../../shared/schemas/connections.js");
+
+    res.json({
+      boards: {
+        total: ALL_BOARDS.length,
+        byLevel: {
+          estrategico: BOARDS_BY_LEVEL.estrategico.map((b) => ({ key: b.key, name: b.name })),
+          tactico: BOARDS_BY_LEVEL.tactico.map((b) => ({ key: b.key, name: b.name })),
+          operativo: BOARDS_BY_LEVEL.operativo.map((b) => ({ key: b.key, name: b.name })),
+        },
+        definitions: ALL_BOARDS,
+      },
+      automations: {
+        total: ALL_AUTOMATIONS.length,
+        definitions: ALL_AUTOMATIONS,
+      },
+      connections: {
+        total: BOARD_CONNECTIONS.length,
+        definitions: BOARD_CONNECTIONS,
+      },
     });
-  });
+  } catch (err) {
+    res.status(500).json({ error: (err as Error).message });
+  }
 });
 
 export default router;

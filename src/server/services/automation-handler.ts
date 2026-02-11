@@ -1,6 +1,9 @@
 import type { AutomationDefinition } from "../../shared/types/monday.js";
 import { ALL_AUTOMATIONS } from "../../shared/schemas/automations.js";
 import { MondayApiService } from "./monday-api.js";
+import { Logger } from "@mondaycom/apps-sdk";
+
+const logger = new Logger("devproject-automations");
 
 interface AutomationContext {
   boardId: string;
@@ -49,12 +52,16 @@ export class AutomationHandler {
       return true;
     });
 
+    logger.info(`Trigger '${triggerType}' matched ${matching.length} automation(s)`);
+
     for (const automation of matching) {
       for (const action of automation.actions) {
         try {
           const result = await this.executeAction(automation, action, context);
+          logger.info(`${automation.id}/${action.type}: success`);
           results.push(result);
         } catch (err) {
+          logger.error(`${automation.id}/${action.type}: failed`, { error: err as Error });
           results.push({
             success: false,
             automationId: automation.id,
