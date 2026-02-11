@@ -99,7 +99,7 @@ npm run dev             # Inicia servidor + cliente
 
 ```bash
 # Via CLI
-npm run provision -- --name "Mi Proyecto BID" --components 3
+npm run provision -- --name "DevProject" --components 3
 
 # Via API
 curl -X POST http://localhost:8080/api/provision \
